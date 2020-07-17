@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <title>My test site</title>
+		<link rel="icon" href="/favicon.ico">
+    </head>
+    <body style="margin: 0px; height:100%; min-height:100%;" onload="embedContent()">
+		<noscript>Please enable Javascript</noscript>
+		<div id="container" style="display:table; height:100%; width:100%;">
+			<div id="wrapper" style="display:table-cell; vertical-align:middle;">
+				<div id="loading" style="width: 100%; text-align: center; position: relative; top: 50%; transform: translateY(-50%);"><h1>LOADING...</h1></div>
+			</div>
+		</div>
+		<script>		
+			function embedContent(){
+				var frame = document.createElement("iframe");
+				frame.setAttribute("width", "100%");
+				frame.setAttribute("height", "100%");
+				frame.setAttribute("frameborder", "none");
+				frame.setAttribute("src", "https://script.google.com/macros/s/AKfycbwAImL8wg5MuwEfl-nA1m4HV2F9TAFV-NgClrsTyLvlzCjflzcw/exec" + location.search + location.hash);
+				frame.onload = function(){
+					document.body.removeChild(container);
+				};
+				
+				document.body.appendChild(frame);
+			}
+		</script>
+    </body>
+</html>
