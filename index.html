@@ -1,32 +1,472 @@
-<html>
-    <head>
-        <title>My portfolio</title>
-        <link rel="icon" href="/favicon.ico" />
-    </head>
-    <body style="margin: 0px; height: 100%; min-height: 100%;" onload="embedContent()">
-        <noscript>Please enable Javascript</noscript>
-        <div id="container" style="display: table; height: 100%; width: 100%;">
-            <div id="wrapper" style="display: table-cell; vertical-align: middle;">
-                <div id="loading" style="width: 100%; text-align: center; position: relative; top: 50%; transform: translateY(-50%);"><h1>LOADING...</h1></div>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,shrink-to-fit=no"
+    />
+    <meta name="theme-color" content="#000000" />
+    <title>Joan Artés Figueres | Portfolio</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <style>
+      body {
+        margin: 0px;
+      }
+      .drawer-frame-root {
+        display: -ms-flexbox;
+        display: flex;
+        height: 100vh;
+      }
+      .drawer-main-content {
+        overflow: auto;
+        height: 100%;
+        padding: 0 18px;
+      }
+      .mdc-switch + label {
+        padding: 10px;
+      }
+      p {
+        text-align: justify;
+      }
+    </style>
+  </head>
+  <body class="mdc-typography">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root">
+      <div class="drawer-frame-root">
+        <aside id="app-bar" class="mdc-drawer">
+          <div class="mdc-drawer__header">
+            <h3 class="mdc-drawer__title">Portfolio</h3>
+            <h6 class="mdc-drawer__subtitle">jartesfigueres@gmail.com</h6>
+          </div>
+          <div class="mdc-drawer__content">
+            <nav class="mdc-list">
+              <a
+                class="mdc-list-item mdc-list-item--activated"
+                href="#"
+                tabindex="-1"
+                aria-selected="true"
+                data-id="intro"
+                ><i
+                  class="material-icons mdc-list-item__graphic"
+                  aria-hidden="true"
+                  >history_edu</i
+                >Introduction</a
+              >
+              <a class="mdc-list-item" href="#" tabindex="-1" data-id="latest"
+                ><i
+                  class="material-icons mdc-list-item__graphic"
+                  aria-hidden="true"
+                  >star</i
+                >Latest projects</a
+              >
+              <a class="mdc-list-item" href="#" tabindex="-1" data-id="archive"
+                ><i
+                  class="material-icons mdc-list-item__graphic"
+                  aria-hidden="true"
+                  >archive</i
+                >Archive</a
+              >
+              <a class="mdc-list-item" href="#" tabindex="-1" data-id="drafts"
+                ><i
+                  class="material-icons mdc-list-item__graphic"
+                  aria-hidden="true"
+                  >construction</i
+                >Proof of concept</a
+              >
+              <hr class="mdc-list-divider" />
+              <a class="mdc-list-item" href="#" tabindex="-1" data-id="settings"
+                ><i
+                  class="material-icons mdc-list-item__graphic"
+                  aria-hidden="true"
+                  >settings</i
+                >Settings</a
+              >
+              <a class="mdc-list-item" href="#" tabindex="-1" data-id="help"
+                ><i
+                  class="material-icons mdc-list-item__graphic"
+                  aria-hidden="true"
+                  >announcement</i
+                >Help &amp; feedback</a
+              >
+            </nav>
+          </div>
+        </aside>
+        <div class="drawer-frame-app-content">
+          <header class="mdc-top-app-bar drawer-top-app-bar">
+            <div class="mdc-top-app-bar__row">
+              <section
+                class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start"
+              >
+                <span class="mdc-top-app-bar__title"></span>
+              </section>
             </div>
-        </div>
-        <script>
-            window.onhashchange = function(){ 
-				frame.contentWindow.location.hash = locatio.hash;
-			};
-            function embedContent() {
-                var frame = document.createElement("iframe");
-                frame.setAttribute("id", "frame");
-                frame.setAttribute("width", "100%");
-                frame.setAttribute("height", "100%");
-                frame.setAttribute("frameborder", "none");
-                frame.setAttribute("src", "https://script.google.com/macros/s/AKfycbwAImL8wg5MuwEfl-nA1m4HV2F9TAFV-NgClrsTyLvlzCjflzcw/exec" + location.search + location.hash);
-                frame.onload = function () {
-                    document.body.removeChild(container);
-                };
+          </header>
+          <div id="main-content" class="drawer-main-content">
+            <div class="mdc-top-app-bar--fixed-adjust"></div>
 
-                document.body.appendChild(frame);
-            }
-        </script>
-    </body>
+            <div id="successMessage" class="mdc-snackbar">
+              <div class="mdc-snackbar__surface">
+                <div
+                  class="mdc-snackbar__label"
+                  role="status"
+                  aria-live="polite"
+                >
+                  Feedback successfully sent.
+                </div>
+                <div class="mdc-snackbar__actions">
+                  <button type="button" class="mdc-button mdc-snackbar__action">
+                    <div class="mdc-button__ripple"></div>
+                    <span class="mdc-button__label">Dismiss</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div id="errorMessage" class="mdc-snackbar">
+              <div class="mdc-snackbar__surface">
+                <div
+                  class="mdc-snackbar__label"
+                  role="status"
+                  aria-live="polite"
+                >
+                  Sorry, an unexpected error happened.
+                </div>
+                <div class="mdc-snackbar__actions">
+                  <button type="button" class="mdc-button mdc-snackbar__action">
+                    <div class="mdc-button__ripple"></div>
+                    <span class="mdc-button__label">Dismiss</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              id="content-intro"
+              class="main-content-section mdc-layout-grid"
+            >
+              <div class="mdc-layout-grid__inner">
+                <p class="mdc-layout-grid__cell">
+                  Due to an ever-changing software development environment, the
+                  task of choosing a language or framework, and sticking to it,
+                  seems increasingly daunting. Every now and then, a new
+                  candidate reaches the top, a new state-of-the-art platform
+                  becomes the cool kid in the block and not mastering it quick
+                  enough feels like you're losing the trendy train. As a fairly
+                  veteran dev, I have seen many come and go, that's why I
+                  usually stick with the classics. Having said that, I cannot
+                  help myself from getting an itch for the new options and, when
+                  they are mature enough, diving into them and trying to get the
+                  most from what they offer.
+                </p>
+                <p class="mdc-layout-grid__cell">
+                  The purpose of this portfolio is to showcase the possibilities
+                  of development frameworks and tools, some of the lesser known
+                  and underused ones, which offer great potential and are
+                  oftentimes not even considered on the drawing board. As this
+                  page is an evolving site, it may seem that many great options
+                  have been ignored. I aim to cover the most common requirements
+                  from the users, which are surprisingly not that many if you
+                  scrape the surface. In time, I will also cover the more
+                  stablished frameworks and compared them with the underdogs.
+                </p>
+              </div>
+            </div>
+            <div
+              id="content-latest"
+              class="main-content-section mdc-layout-grid"
+              style="display: none;"
+            >
+              <div class="mdc-layout-grid__inner">
+                <div
+                  class="mdc-layout-grid__cell mdc-layout-grid__cell--span-10"
+                >
+                  <h3>G Suite</h3>
+                  <p>
+                    The following project demonstates the power of G Suite
+                    which, with a plethora of APIs and tools available, makes
+                    for a gentle learning curve in development and an easy
+                    deployment process of rich web content. The data displayed
+                    on the different reports comes from multiple sources and
+                    allows the user to evaluate the conditions in different
+                    geographical areas.
+                  </p>
+                  <p>
+                    DISCLAIMER: This is an ongoing projet. Some of the feature
+                    may not work as intended. Once the project is completely
+                    released, this notice will be removed.
+                  </p>
+                  <button
+                    class="mdc-button mdc-button--raised"
+                    onclick="openProject('1FbnLZlm45cIjNrGEzw1FipPe5eCwOG1BFtON03Y6DHnVuFWogXAjGVA5')"
+                  >
+                    <div class="mdc-button__ripple"></div>
+                    <i
+                      class="material-icons mdc-button__icon"
+                      aria-hidden="true"
+                      >launch</i
+                    >
+                    <span class="mdc-button__label">Open project</span>
+                  </button>
+                </div>
+                <div
+                  class="mdc-layout-grid__cell mdc-layout-grid__cell--span-10"
+                >
+                  <h3>Wordpress</h3>
+                  <p>
+                    The following project demonstates the power of Wordpress,
+                    open-source content management system (CMS) written in PHP
+                    and paired with a MySQL or MariaDB database. Features
+                    include a plugin architecture and a template system,
+                    referred to within WordPress as Themes.
+                  </p>
+                  <p>
+                    DISCLAIMER: This is an ongoing projet. Some of the feature
+                    may not work as intended. Once the project is completely
+                    released, this notice will be removed.
+                  </p>
+                  <button
+                    class="mdc-button mdc-button--raised"
+                    onclick="openProject('mywebcommunity')"
+                  >
+                    <div class="mdc-button__ripple"></div>
+                    <i
+                      class="material-icons mdc-button__icon"
+                      aria-hidden="true"
+                      >launch</i
+                    >
+                    <span class="mdc-button__label">Open project</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              id="content-archive"
+              class="main-content-section"
+              style="display: none;"
+            >
+              <p>
+                Archived projects scheduled to be uploaded soon.
+              </p>
+            </div>
+            <div
+              id="content-drafts"
+              class="main-content-section"
+              style="display: none;"
+            >
+              <p>
+                Coming soon.
+              </p>
+            </div>
+            <div
+              id="content-settings"
+              class="main-content-section"
+              style="display: none;"
+            >
+              <h3>UI settings</h3>
+              <div class="mdc-switch">
+                <div class="mdc-switch__track"></div>
+                <div class="mdc-switch__thumb-underlay">
+                  <div class="mdc-switch__thumb"></div>
+                  <input
+                    type="checkbox"
+                    id="themeSwitch"
+                    class="mdc-switch__native-control"
+                    role="switch"
+                    aria-checked="false"
+                  />
+                </div>
+              </div>
+              <label for="basic-switch">Dark theme</label>
+            </div>
+            <div
+              id="content-help"
+              class="main-content-section"
+              style="display: none;"
+            >
+              <h3>Tell us how we can improve!</h3>
+              <form action="#" onsubmit="return formSubmit();">
+                <div>
+                  <label class="mdc-text-field mdc-text-field--filled">
+                    <span class="mdc-text-field__ripple"></span>
+                    <input
+                      id="email"
+                      type="email"
+                      class="mdc-text-field__input"
+                      aria-labelledby="email"
+                      required
+                    />
+                    <span class="mdc-floating-label">Email</span>
+                    <span class="mdc-line-ripple"></span>
+                  </label>
+                </div>
+                <div>
+                  <label
+                    class="mdc-text-field mdc-text-field--filled mdc-text-field--textarea mdc-text-field--no-label"
+                  >
+                    <span class="mdc-text-field__ripple"></span>
+                    <span class="mdc-text-field__resizer">
+                      <textarea
+                        id="message"
+                        class="mdc-text-field__input"
+                        rows="8"
+                        cols="40"
+                        aria-label="Suggesstion"
+                        placeholder="Suggestion*"
+                        required
+                      ></textarea>
+                    </span>
+                    <span class="mdc-line-ripple"></span>
+                  </label>
+                </div>
+                <div class="mdc-card__actions">
+                  <div class="mdc-card__action-buttons">
+                    <button
+                      class="mdc-button mdc-card__action mdc-card__action--button"
+                      type="submit"
+                    >
+                      <div class="mdc-button__ripple"></div>
+                      <span class="mdc-button__label">Submit</span>
+                    </button>
+                  </div>
+                  <div class="mdc-card__action-icons"></div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Required Material Web JavaScript library -->
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <script>
+      mdc.textField.MDCTextField.attachTo(
+        document.querySelector(".mdc-text-field")
+      );
+      mdc.switchControl.MDCSwitch.attachTo(
+        document.querySelector(".mdc-switch")
+      );
+      var list = mdc.list.MDCList.attachTo(document.querySelector(".mdc-list"));
+      list.listen("click", function() {
+        var sectionId = document
+          .querySelector(".mdc-list-item--activated")
+          .getAttribute("data-id");
+        document
+          .querySelectorAll(".main-content-section")
+          .forEach(function(element) {
+            element.style.display = "none";
+          });
+        document.querySelector(
+          ".main-content-section#content-" + sectionId
+        ).style.display = "";
+        /*
+          google.script.url.getLocation(function(loc) {
+             google.script.run.trackPage(loc.parameter, sectionId);
+          });
+          */
+      });
+      function sendEmail(address, message, callback, errorCallback) {
+        /*
+        google.script.run
+          .withSuccessHandler(
+            callback ||
+              function(retVal) {
+                console.log("Suggestion sent successfully");
+              }
+          )
+          .withFailureHandler(
+            errorCallback ||
+              function(error) {
+                console.error("Unexpected error sending suggestion:", error);
+              }
+          )
+          .submitSuggestion(address, message);
+          */
+      }
+
+      function showGenericError() {
+        // Show error message
+        let sb = mdc.snackbar.MDCSnackbar.attachTo(
+          document.querySelector("#errorMessage")
+        );
+        sb.open();
+      }
+
+      function formSubmit() {
+        try {
+          // Send email message from server
+          sendEmail(
+            email.value,
+            message.value,
+            function() {
+              // Show confirmation
+              let sb = mdc.snackbar.MDCSnackbar.attachTo(
+                document.querySelector("#successMessage")
+              );
+              sb.open();
+              // Clear form
+              document.forms[0].reset();
+            },
+            showGenericError
+          );
+        } catch (err) {
+          showGenericError();
+        }
+
+        return false;
+      }
+
+      function openProject(projectId) {
+        try {
+          var webAppId =
+            "1kXN7CxiQf6G3BUuL2ONBKlaEUYgC2oRIgJTe4KEyqOobIWEsnBiaQqFM";
+
+          var win =
+            window[webAppId] && !window[webAppId].closed ? win : undefined;
+
+          if (!win)
+            win = window[webAppId] = window.open("/project.html?prj=" + projectId, webAppId);
+
+          if (win.document) {
+            win.addEventListener('load', function() {
+              win.document.title = "Project " + projectId;
+            }, false);
+          } else {
+            alert(
+              "Popup blocked by browser.\nPlease allow pop-ups and redirects from this domain."
+            );
+          }
+        } catch (err) {
+          console.error(err);
+          win.location = "/project.html?prj=" + projectId;
+        } finally {
+          //google.script.run.trackPage({"project": projectId});
+        }
+      }
+
+      document
+        .getElementById("themeSwitch")
+        .addEventListener("change", function(event) {
+          event.target.checked
+            ? document.body.setAttribute("data-theme", "dark")
+            : document.body.removeAttribute("data-theme");
+        });
+
+      // Deep-linking
+      var section = location.hash.replace(/^#/, "");
+      if (section) {
+        var tab = document.querySelector("[data-id=" + section + "]");
+        if (tab) tab.click();
+      }
+
+      //google.script.run.trackPage(loc.parameter, loc.hash);
+    </script>
+  </body>
 </html>
