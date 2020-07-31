@@ -431,7 +431,9 @@
           var win =
             window[webAppId] && !window[webAppId].closed ? win : undefined;
 
-          if (!win)
+          if (win)
+            win.location = "/project.html?prj=" + projectId;
+          else
             win = window[webAppId] = window.open("/project.html?prj=" + projectId, webAppId);
 
           if (win.document) {
