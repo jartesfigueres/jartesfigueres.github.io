@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Redirecting...</title>
+    <style>
+      :root {
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body style="margin: 0px; height:100%; height:100%; overflow: hidden;" onload="redirect();">
+    <noscript>Please enable Javascript</noscript>
+    <div id="container" style="display:table; height:100%; width:100%;">
+      <div id="wrapper" style="display:table-cell; vertical-align:middle;">
+        <div
+          id="loading"
+          style="width: 100%; text-align: center; position: relative; top: 50%; transform: translateY(-50%);"
+        >
+          <h1 id="message">LOADING...</h1>
+        </div>
+      </div>
+    </div>
+    <script>
+      function getUrlVars() {
+        var vars = {};
+        var parts = window.location.href.replace(
+          /[?&]+([^=&]+)=([^&]*)/gi,
+          function(m, key, value) {
+            vars[key] = value;
+          }
+        );
+        return vars;
+      }
+      function redirect() {
+        var params = getUrlVars();
+        var prjId = params["prj"];
+        if (prjId) {
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+            if (this.readyState == 4) {
+              if (this.status == 200) {
+                try {
+                  var data = JSON.parse(this.responseText);
+                  var url = data[prjId];
+                  if (url) {
+                    var loader =
+                      "<iframe id='frame' width='100%' height='100%' frameborder='none' src='" +
+                      url +
+                      "' onload='document.body.removeChild(container);'></iframe>";
+                    document.body.innerHTML += loader;
+                  } else {
+                    message.textContent = "Project not found.";
+                  }
+                } catch (err) {
+                  console.error(err);
+                  // TODO: send beacon
+                  message.textContent =
+                    "There was an unexpected problem redirecting to the project.";
+                }
+              } else {
+                console.error(this.status, this.responseText);
+                // TODO: send beacon
+                message.textContent =
+                  "There was an unexpected problem redirecting to the project.";
+              }
+            }
+          };
+          xhttp.open("GET", "redirection.json", true);
+          xhttp.send();
+        }
+      }
+    </script>
+  </body>
+</html>
