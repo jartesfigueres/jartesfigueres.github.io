@@ -431,16 +431,14 @@
           var win =
             window[webAppId] && !window[webAppId].closed ? win : undefined;
 
-          if (win)
-            win.location = "/project.html?prj=" + projectId;
+          if (win) win.location = "/project.html?prj=" + projectId;
           else
-            win = window[webAppId] = window.open("/project.html?prj=" + projectId, webAppId);
+            win = window[webAppId] = window.open(
+              "/project.html?prj=" + projectId,
+              webAppId
+            );
 
-          if (win.document) {
-            win.addEventListener('load', function() {
-              win.document.title = "Project " + projectId;
-            }, false);
-          } else {
+          if (!win.document) {
             alert(
               "Popup blocked by browser.\nPlease allow pop-ups and redirects from this domain."
             );
