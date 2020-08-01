@@ -366,29 +366,34 @@
         document.querySelector(
           ".main-content-section#content-" + sectionId
         ).style.display = "";
-        /*
-          google.script.url.getLocation(function(loc) {
-             google.script.run.trackPage(loc.parameter, sectionId);
-          });
-          */
+
+        setTimeout(function() {
+          ga("send", "pageview", location.pathname + "#" + sectionId);
+        }, 500);
       });
+
+      function sendLog(error) {
+        navigator.sendBeacon(
+          "https://script.google.com/macros/s/AKfycbwAImL8wg5MuwEfl-nA1m4HV2F9TAFV-NgClrsTyLvlzCjflzcw/exec?action=log",
+          JSON.stringify(error)
+        );
+      }
+
       function sendEmail(address, message, callback, errorCallback) {
-        /*
-        google.script.run
-          .withSuccessHandler(
-            callback ||
-              function(retVal) {
-                console.log("Suggestion sent successfully");
-              }
-          )
-          .withFailureHandler(
-            errorCallback ||
-              function(error) {
-                console.error("Unexpected error sending suggestion:", error);
-              }
-          )
-          .submitSuggestion(address, message);
-          */
+        var success = navigator.sendBeacon(
+          "https://script.google.com/macros/s/AKfycbwAImL8wg5MuwEfl-nA1m4HV2F9TAFV-NgClrsTyLvlzCjflzcw/exec?action=feedback",
+          JSON.stringify({ sender: address, message: message })
+        );
+        if (success)
+          (callback ||
+            function() {
+              console.log("Suggestion sent successfully");
+            })();
+        else
+          (errorCallback ||
+            function() {
+              console.error("Unexpected error sending suggestion:", error);
+            })();
       }
 
       function showGenericError() {
@@ -418,6 +423,7 @@
           );
         } catch (err) {
           showGenericError();
+          sendLog(err);
         }
 
         return false;
@@ -446,8 +452,7 @@
         } catch (err) {
           console.error(err);
           win.location = "/project.html?prj=" + projectId;
-        } finally {
-          //google.script.run.trackPage({"project": projectId});
+          sendLog(err);
         }
       }
 
@@ -465,8 +470,20 @@
         var tab = document.querySelector("[data-id=" + section + "]");
         if (tab) tab.click();
       }
+    </script>
 
-      //google.script.run.trackPage(loc.parameter, loc.hash);
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-173998345-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "UA-173998345-1");
+
+      ga("send", "pageview", location.pathname + location.hash);
     </script>
   </body>
 </html>
